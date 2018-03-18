@@ -1,0 +1,136 @@
+
+<script>
+    var a = location.hash.substring(1).split(':');
+    if (a.length==3) {
+        appid = a[0];
+        appkey = a[1];
+        appsecret = a[2];
+    }
+    else {
+        alert("Please parse appid, appkey and appsecret as a hash e.g. :\n\n"+location+"#APPID:APPKEY:APPSECRET");            
+    }
+    
+    var microgear = Microgear.create({
+        key: appkey,
+        secret: appsecret,
+        alias : "piesonoffhtml"
+    });
+
+    microgear.on('message',function(topic,msg) {
+        if(msg =="ch1-off")document.getElementById("CH1").innerHTML = "OFF";
+        if(msg =="ch1-on")document.getElementById("CH1").innerHTML = "ON";
+        if(msg =="ch2-off")document.getElementById("CH2").innerHTML = "OFF";
+        if(msg =="ch2-on")document.getElementById("CH2").innerHTML = "ON";
+        if(msg =="ch3-off")document.getElementById("CH3").innerHTML = "OFF";
+        if(msg =="ch3-on")document.getElementById("CH3").innerHTML = "ON";        
+        if(msg =="ch4-off")document.getElementById("CH4").innerHTML = "OFF";
+        if(msg =="ch4-on")document.getElementById("CH4").innerHTML = "ON";    
+    });
+
+    microgear.on('connected', function() {
+        microgear.subscribe('/piesonoff/state');
+        microgear.chat('piesonoff','?');
+        document.getElementById("data").innerHTML = "<FONT color=#00BB00>ONLINE</FONT>";
+    });
+ 
+    microgear.connect(appid);
+//------------function control channel 1--------------------//
+    function ch1_on() 
+    {
+        microgear.chat('piesonoff','A');    //send "A" charactor for on command channel1
+    }
+    function ch1_off() 
+    {
+        microgear.chat('piesonoff','a');    //send "a" charactor for off command channel1
+    }
+//------------function control channel 2--------------------//
+    function ch2_on() 
+    {
+        microgear.chat('piesonoff','B');
+    }
+    function ch2_off() 
+    {
+        microgear.chat('piesonoff','b');
+    }
+//------------function control channel 3--------------------//
+    function ch3_on() 
+    {
+        microgear.chat('piesonoff','C');
+    }
+    function ch3_off() 
+    {
+        microgear.chat('piesonoff','c');
+    }
+//------------function control channel 4--------------------//
+    function ch4_on() 
+    {
+        microgear.chat('piesonoff','D');
+    }
+    function ch4_off() 
+    {
+        microgear.chat('piesonoff','d');
+    }
+</script>
+
+<style>
+table, th, td {
+    border: 10px solid black;
+}
+</style>
+
+</<!DOCTYPE html>
+<html>
+<head>
+    <title>4 LED Web control (esp8266)</title>
+</head>
+<body>
+<div id="data" align=right><FONT COLOR=#DDDDDD>OFFLINE</FONT></div> <br>
+<center>
+<h1> ESP8266 control 4 LED on web</h1>
+<table>
+    <!-- Header table-->
+    <tr>
+        <th>Channel</th>
+        <th>Control</th>
+        <th>Status</th>    
+    </tr>
+    <!-- ###################### List channel 1  display ######################## --> 
+    <tr>
+        <td>CH-1</td>
+        <td>
+                <button type="button" autofocus onclick="ch1_on()">ON</button>
+                <button type="button" autofocus onclick="ch1_off()">OFF</button>
+        </td>
+        <td><div id="CH1"> OFF </div></td>
+    </tr>
+    <!-- ###################### List channel 2  display ######################## --> 
+    <tr>
+        <td>CH-2</td>
+        <td>
+                <button type="button" autofocus onclick="ch2_on()">ON</button>
+                <button type="button" autofocus onclick="ch2_off()">OFF</button>
+        </td>
+        <td><div id="CH2"> OFF </div></td>
+    </tr>
+    <!-- ###################### List channel 3  display ######################## --> 
+    <tr>
+        <td>CH-3</td>
+        <td>
+                <button type="button" autofocus onclick="ch3_on()">ON</button>
+                <button type="button" autofocus onclick="ch3_off()">OFF</button>
+        </td>
+        <td><div id="CH3"> OFF </div></td>
+    </tr>
+    <tr>
+    <!-- ###################### List channel 4  display ######################## -->         
+        <td>CH-4</td>
+        <td>
+                <button type="button" autofocus onclick="ch4_on()">ON</button>
+                <button type="button" autofocus onclick="ch4_off()">OFF</button>
+        </td>
+        <td><div id="CH4"> OFF </div></td>
+    </tr>
+</table>
+</center>
+</body>
+</html>>
